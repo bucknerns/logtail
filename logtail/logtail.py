@@ -77,7 +77,7 @@ def editlatest():
     if len(sys.argv) < 2 or len(sys.argv) > 3:
         print "Usage: taillogs <path> [<file glob>]"
         exit(1)
-    for editor in ["subl", "vim", "vi", "nano", "pico"]:
+    for editor in ["xdg-open", "subl", "vim", "vi", "nano", "pico"]:
         ret_code = os.system("{0} {1}".format(
             os.getenv('EDITOR', editor), get_newest_file(*sys.argv[1:])))
         if not ret_code:

@@ -13,7 +13,7 @@ def set_title(title):
     if term in ["xterm"]:
         print_binary(b"\x1B]0;%s\x07" % six.b(title))
     if term in ["screen"]:
-        print_binary(b"'\033k%s\033\\'" % six.b(title))
+        print_binary(b"\033k%s\033\\" % six.b(title))
 
 
 def print_binary(data):

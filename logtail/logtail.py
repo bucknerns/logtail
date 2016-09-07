@@ -10,7 +10,7 @@ stdout = io.open(1, "wb")
 
 def set_title(title):
     term = os.environ.get("TERM")
-    if term in ["xterm"]:
+    if term.startswith("xterm"):
         print_binary(b"\x1B]0;%s\x07" % six.b(title))
     if term in ["screen"]:
         print_binary(b"\033k%s\033\\" % six.b(title))

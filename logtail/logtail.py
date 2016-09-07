@@ -1,9 +1,16 @@
-from time import sleep
 from fnmatch import fnmatch
+from time import sleep
+import io
 import os
 import sys
-
+import six
 file_tracker = {}
+stdout = io.open(1, "wb")
+
+
+def print_binary(data):
+    stdout.write(data)
+    stdout.flush()
 
 
 def register_existing_files(search_path, name_match):
@@ -20,13 +27,13 @@ def get_changed(search_path, name_match, print_new=True):
                 current[file_] = get_file_size(file_)
 
     for file_ in set(file_tracker) - set(current):
-        sys.stdout.write("File removed: {0}\n".format(file_))
+        print_binary(b"File removed: %s\n" % (six.b(file_)))
         file_tracker.pop(file_)
 
     for file_, size in current.items():
         if file_ not in file_tracker:
             if print_new:
-                sys.stdout.write("New File: {0}\n".format(file_))
+                print_binary(b"New File: %s\n" % (six.b(file_)))
             file_tracker[file_] = 0
 
         if size != file_tracker[file_]:
@@ -53,26 +60,27 @@ def get_file_size(path):
 
 
 def print_latest(current_file, size):
+    print_binary(b"\x1B]0;%s\x07" % six.b(current_file))
     if current_file in file_tracker:
         old_size = file_tracker[current_file]
         if size < old_size:
-            sys.stdout.write("File Truncated: {0}\n".format(current_file))
+            print_binary(b"File Truncated: %s\n" % (six.b(current_file)))
             old_size = 0
             file_tracker[current_file] = 0
         if old_size != size:
             with open(current_file, "rb") as f:
                 f.seek(old_size)
-                sys.stdout.write(f.read(size - old_size))
+                print_binary(f.read(size - old_size))
             file_tracker[current_file] = size
     else:
         with open(current_file, "rb") as f:
-            sys.stdout.write(f.read(size))
+            print_binary(f.read(size))
             file_tracker[current_file] = size
 
 
 def check_args():
     if len(sys.argv) < 2 or len(sys.argv) > 3:
-        sys.stdout.write("Usage: taillogs <path> [<file glob>]\n")
+        print_binary(b"Usage: taillogs <path> [<file glob>]\n")
         exit(1)
 
     if not os.path.exists(sys.argv[1]):

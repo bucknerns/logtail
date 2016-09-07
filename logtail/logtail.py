@@ -8,6 +8,14 @@ file_tracker = {}
 stdout = io.open(1, "wb")
 
 
+def set_title(title):
+    term = os.environ.get("TERM")
+    if term in ["xterm"]:
+        print_binary(b"\x1B]0;%s\x07" % six.b(title))
+    if term in ["screen"]:
+        print_binary(b"'\033k%s\033\\'" % six.b(title))
+
+
 def print_binary(data):
     stdout.write(data)
     stdout.flush()
@@ -60,7 +68,7 @@ def get_file_size(path):
 
 
 def print_latest(current_file, size):
-    print_binary(b"\x1B]0;%s\x07" % six.b(current_file))
+    set_title(current_file)
     if current_file in file_tracker:
         old_size = file_tracker[current_file]
         if size < old_size:

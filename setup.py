@@ -6,7 +6,7 @@ os.chdir(os.path.abspath(os.path.dirname(__file__)))
 
 setup(
     name="logtail",
-    version="0.0.4",
+    version="0.0.5",
     description="Package for tailing logs and viewing in editor",
     long_description=open("README.md").read(),
     author="Nathan Buckner",

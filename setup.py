@@ -6,7 +6,7 @@ os.chdir(os.path.abspath(os.path.dirname(__file__)))
 
 setup(
     name="logtail",
-    version="0.0.7",
+    version="0.0.10",
     description="Package for tailing logs and viewing in editor",
     long_description=open("README.md").read(),
     author="Nathan Buckner",
@@ -14,15 +14,13 @@ setup(
     url="http://github.com/bucknerns",
     license=open("LICENSE").read(),
     packages=find_packages(),
-    classifiers=(
+    classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
         "Natural Language :: English",
         "License :: Other/Proprietary License",
         "Operating System :: POSIX :: Linux",
-        "Programming Language :: Python",
-        "Programming Language :: Python :: 2.7"),
-    entry_points={
-        "console_scripts":
-        ["logtail = logtail.logtail:main",
-         "editlatest = logtail.logtail:editlatest"]})
+        "Programming Language :: Python"],
+    entry_points={"console_scripts": [
+        "logtail = logtail.cli:entry_point",
+        "editlatest = logtail.cli:entry_point"]})

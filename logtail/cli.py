@@ -14,12 +14,12 @@ class ArgumentParser(argparse.ArgumentParser):
         self.prog = "Argument Parser"
 
         self.add_argument(
-            "folder", default=".", action="store", metavar="<folder>",
+            "folder", default=".", action="store",
             nargs="?", help="Folder to search in")
 
         self.add_argument(
-            "-g", "--glob", default="*", action="store", metavar="<glob>",
-            nargs="?", help="")
+            "-g", "--glob", default="*", action="store",
+            help="Globbing file match express")
 
 
 def entry_point():

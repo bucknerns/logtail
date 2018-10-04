@@ -1,3 +1,4 @@
+from pipes import quote
 import io
 import os
 
@@ -30,5 +31,5 @@ def edit_file(file_):
         os.getenv("EDITOR", "xdg-open"), "xdg-open", "open", "subl", "vim",
         "vi", "nano", "pico"]
     for editor in editors:
-        if not os.system("{0} {1}".format(editor, file_)):
+        if not os.system("{0} {1}".format(editor, quote(file_))):
             return 0
